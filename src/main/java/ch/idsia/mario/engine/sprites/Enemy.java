@@ -96,48 +96,57 @@ public class Enemy extends Sprite
             return;
         }
 
-        float xMarioD = world.mario.x - x;
-        float yMarioD = world.mario.y - y;
-        @SuppressWarnings("unused")
-		float w = 16;
-        if (xMarioD > -width*2-4 && xMarioD < width*2+4)
-        {
-            if (yMarioD > -height && yMarioD < world.mario.height)
-            {
-                if (type != Enemy.ENEMY_SPIKY && world.mario.ya > 0 && yMarioD <= 0 && (!world.mario.onGround || !world.mario.wasOnGround))
-                {
-                    world.mario.stomp(this);
-                    if (winged)
-                    {
-                        winged = false;
-                        ya = 0;
-                    }
-                    else
-                    {
-                        this.yPicO = 31 - (32 - 8);
-                        hPic = 8;
-                        if (spriteTemplate != null) spriteTemplate.isDead = true;
-                        deadTime = 10;
-                        winged = false;
+        // Allow for extra playful Mario
+        Mario[] marios = new Mario[LevelScene.TWO_PLAYERS ? 2 : 1];
+        marios[0] = world.mario;
+        if(LevelScene.TWO_PLAYERS) {
+        	marios[1] = world.mario2;
+        }
+        
+        for(Mario mario : marios) {
+        	float xMarioD = mario.x - x;
+        	float yMarioD = mario.y - y;
+        	@SuppressWarnings("unused")
+        	float w = 16;
+        	if (xMarioD > -width*2-4 && xMarioD < width*2+4)
+        	{
+        		if (yMarioD > -height && yMarioD < mario.height)
+        		{
+        			if (type != Enemy.ENEMY_SPIKY && mario.ya > 0 && yMarioD <= 0 && (!mario.onGround || !mario.wasOnGround))
+        			{
+        				mario.stomp(this);
+        				if (winged)
+        				{
+        					winged = false;
+        					ya = 0;
+        				}
+        				else
+        				{
+        					this.yPicO = 31 - (32 - 8);
+        					hPic = 8;
+        					if (spriteTemplate != null) spriteTemplate.isDead = true;
+        					deadTime = 10;
+        					winged = false;
 
-                        if (type == Enemy.ENEMY_RED_KOOPA)
-                        {
-                            spriteContext.addSprite(new Shell(world, x, y, 0));
-                        }
-                        else if (type == Enemy.ENEMY_GREEN_KOOPA)
-                        {
-                            spriteContext.addSprite(new Shell(world, x, y, 1));
-                        }
-//                        System.out.println("collideCheck and stomp");
-                        ++LevelScene.killedCreaturesTotal;
-                        ++LevelScene.killedCreaturesByStomp;
-                    }
-                }
-                else
-                {
-                    world.mario.getHurt();
-                }
-            }
+        					if (type == Enemy.ENEMY_RED_KOOPA)
+        					{
+        						spriteContext.addSprite(new Shell(world, x, y, 0));
+        					}
+        					else if (type == Enemy.ENEMY_GREEN_KOOPA)
+        					{
+        						spriteContext.addSprite(new Shell(world, x, y, 1));
+        					}
+        					//                        System.out.println("collideCheck and stomp");
+        					++LevelScene.killedCreaturesTotal;
+        					++LevelScene.killedCreaturesByStomp;
+        				}
+        			}
+        			else
+        			{
+        				mario.getHurt();
+        			}
+        		}
+        	}
         }
     }
 
@@ -397,6 +406,7 @@ public class Enemy extends Sprite
 
         if (x + width > xTile * 16 && x - width < xTile * 16 + 16 && yTile == (int) ((y - 1) / 16))
         {
+        	// Does this need to change to support multiple marios?
             xa = -world.mario.facing * 2;
             ya = -5;
             flyDeath = true;

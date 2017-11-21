@@ -747,6 +747,7 @@ public class LevelScene extends Scene implements SpriteContext
                 {
                     int dir = 0;
 
+                    // Moves camera?
                     if (x * 16 + 8 > mario.x + 16) dir = -1;
                     if (x * 16 + 8 < mario.x - 16) dir = 1;
 

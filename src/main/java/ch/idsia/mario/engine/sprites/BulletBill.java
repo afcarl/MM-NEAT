@@ -45,28 +45,37 @@ public class BulletBill extends Sprite
     {
         if (dead) return;
 
-        float xMarioD = world.mario.x - x;
-        float yMarioD = world.mario.y - y;
-        @SuppressWarnings("unused")
-		float w = 16;
-        if (xMarioD > -16 && xMarioD < 16)
-        {
-            if (yMarioD > -height && yMarioD < world.mario.height)
-            {
-                if (world.mario.ya > 0 && yMarioD <= 0 && (!world.mario.onGround || !world.mario.wasOnGround))
-                {
-                    world.mario.stomp(this);
-                    dead = true;
+        // Allow for extra playful Mario
+        Mario[] marios = new Mario[LevelScene.TWO_PLAYERS ? 2 : 1];
+        marios[0] = world.mario;
+        if(LevelScene.TWO_PLAYERS) {
+        	marios[1] = world.mario2;
+        }
+        
+        for(Mario mario : marios) {
+        	float xMarioD = mario.x - x;
+        	float yMarioD = mario.y - y;
+        	@SuppressWarnings("unused")
+        	float w = 16;
+        	if (xMarioD > -16 && xMarioD < 16)
+        	{
+        		if (yMarioD > -height && yMarioD < mario.height)
+        		{
+        			if (mario.ya > 0 && yMarioD <= 0 && (!mario.onGround || !mario.wasOnGround))
+        			{
+        				mario.stomp(this);
+        				dead = true;
 
-                    xa = 0;
-                    ya = 1;
-                    deadTime = 100;
-                }
-                else
-                {
-                    world.mario.getHurt();
-                }
-            }
+        				xa = 0;
+        				ya = 1;
+        				deadTime = 100;
+        			}
+        			else
+        			{
+        				mario.getHurt();
+        			}
+        		}
+        	}
         }
     }
 

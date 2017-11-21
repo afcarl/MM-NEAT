@@ -1,22 +1,28 @@
 package ch.idsia.mario.engine;
 
-import ch.idsia.ai.agents.Agent;
-import ch.idsia.ai.agents.ai.ForwardAgent;
-import ch.idsia.ai.agents.human.CheaterKeyboardAgent;
-import ch.idsia.mario.engine.sprites.Mario;
-import ch.idsia.mario.environments.Environment;
-import ch.idsia.tools.EvaluationInfo;
-import ch.idsia.tools.GameViewer;
-import ch.idsia.tools.tcp.ServerAgent;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.image.VolatileImage;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JComponent;
+
+import cern.colt.Arrays;
+import ch.idsia.ai.agents.Agent;
+import ch.idsia.ai.agents.human.CheaterKeyboardAgent;
+import ch.idsia.ai.agents.human.HumanKeyboardAgent;
+import ch.idsia.mario.engine.sprites.Mario;
+import ch.idsia.mario.environments.Environment;
+import ch.idsia.tools.EvaluationInfo;
+import ch.idsia.tools.GameViewer;
+import ch.idsia.tools.tcp.ServerAgent;
+import competition.play.PlayfulAStarOpponentAgent;
 
 
 public class MarioComponent extends JComponent implements Runnable, /*KeyListener,*/ FocusListener, Environment {
@@ -44,7 +50,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
     private GameViewer gameViewer = null;
 
     private Agent agent = null;
-    private Agent agent2 = null; //new ForwardAgent();
+    private Agent agent2 = null;
     private CheaterKeyboardAgent cheatAgent = null;
 
     private KeyAdapter prevHumanKeyBoardAgent;
@@ -113,7 +119,14 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
     }
 
     public EvaluationInfo run1(int currentTrial, int totalNumberOfTrials) {
-        running = true;
+
+    	
+    	System.out.println("run1 agents");
+    	System.out.println(agent);
+    	System.out.println(agent2);
+    	
+    	
+    	running = true;
         adjustFPS();
         EvaluationInfo evaluationInfo = new EvaluationInfo();
 
@@ -139,8 +152,10 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         int marioStatus = Mario.STATUS_RUNNING;
 
         mario = ((LevelScene) scene).mario;
-        if(agent2 != null)
+        if(agent2 != null) {
         	mario2 = ((LevelScene) scene).mario2;
+        	System.out.println(agent2 + ":" + mario2);
+        }
         int totalActionsPerfomed = 0;
 // TODO: Manage better place for this:
         Mario.resetCoins();
@@ -188,8 +203,9 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
             //Apply action;
 //            scene.keys = action;
             mario.keys = action;
-            if(agent2 != null)
+            if(agent2 != null) {
             	mario2.keys = action2;
+            }
             ((LevelScene) scene).mario.cheatKeys = cheatAgent.getAction(null);
 
             if (GlobalOptions.VisualizationOn) {
@@ -411,6 +427,16 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         }
     }
 
+    public void setAgent2(Agent agent) {
+        this.agent2 = agent;
+        if (agent instanceof KeyAdapter) {
+            if (prevHumanKeyBoardAgent != null)
+                this.removeKeyListener(prevHumanKeyBoardAgent);
+            this.prevHumanKeyBoardAgent = (KeyAdapter) agent;
+            this.addKeyListener(prevHumanKeyBoardAgent);
+        }
+    }    
+    
     public void setMarioInvulnerable(boolean invulnerable)
     {
         Mario.isMarioInvulnerable = invulnerable;

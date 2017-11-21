@@ -19,7 +19,7 @@ import java.util.List;
 public class LevelScene extends Scene implements SpriteContext
 {
 	// Used for adding a 2nd "playful" AI
-	public static final boolean TWO_PLAYERS = false;
+	public static final boolean TWO_PLAYERS = true;
 	
     private List<Sprite> sprites = new ArrayList<Sprite>();
     private List<Sprite> spritesToAdd = new ArrayList<Sprite>();

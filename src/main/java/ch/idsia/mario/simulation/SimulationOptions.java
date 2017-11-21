@@ -15,6 +15,7 @@ import ch.idsia.utils.ParameterContainer;
 public class SimulationOptions extends ParameterContainer
 {
     protected Agent agent;
+    protected Agent agent2; // Hack for playful agent
 //    protected MarioComponent marioComponent = null;
 
     public static int currentTrial = 1;
@@ -30,6 +31,7 @@ public class SimulationOptions extends ParameterContainer
     {
         SimulationOptions ret = new SimulationOptions();
         ret.setAgent(getAgent());
+        ret.setAgent2(getAgent2()); // Added for playful agent
         ret.setLevelDifficulty(getLevelDifficulty());
         ret.setLevelLength(getLevelLength());
         ret.setLevelRandSeed(getLevelRandSeed());
@@ -58,6 +60,15 @@ public class SimulationOptions extends ParameterContainer
         this.agent = agent;
     }
 
+    public Agent getAgent2() {
+//      return a(getParameterValue("-ag"));      }
+      return agent2; }
+
+  public void setAgent2(Agent agent) {
+//      setParameterValue("-ag", s(agent));
+      this.agent2 = agent;
+  }
+    
     // TODO? LEVEL_TYPE enum?
     // LevelType
     public int getLevelType() {

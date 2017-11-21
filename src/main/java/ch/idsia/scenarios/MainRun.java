@@ -1,6 +1,8 @@
 package ch.idsia.scenarios;
 
 import ch.idsia.ai.agents.ai.*;
+import ch.idsia.ai.agents.human.HumanKeyboardAgent;
+import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.ai.agents.Agent;
 import ch.idsia.ai.agents.AgentsPool;
 //import ch.idsia.ai.agents.icegic.robin.AStarAgent;
@@ -36,6 +38,11 @@ public class MainRun
     public static void main(String[] args) {
         CmdLineOptions cmdLineOptions = new CmdLineOptions(args);
         EvaluationOptions evaluationOptions = cmdLineOptions;  // if none options mentioned, all defalults are used.
+
+        if(LevelScene.TWO_PLAYERS) {
+        	evaluationOptions.setAgent2(new HumanKeyboardAgent());
+        }
+        
         createAgentsPool();
 
         if (scoring)

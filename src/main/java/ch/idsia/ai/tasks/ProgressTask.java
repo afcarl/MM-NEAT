@@ -1,9 +1,11 @@
 package ch.idsia.ai.tasks;
 
 import ch.idsia.ai.agents.Agent;
+import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.EvaluationOptions;
 import ch.idsia.tools.Evaluator;
+import competition.play.PlayfulAStarOpponentAgent;
 
 import java.util.List;
 
@@ -26,6 +28,12 @@ public class ProgressTask implements Task {
         double distanceTravelled = 0;
 //        controller.reset();
         options.setAgent(controller);
+
+        if(LevelScene.TWO_PLAYERS) {
+        	// For playful agent
+        	options.setAgent2(new PlayfulAStarOpponentAgent());
+        }
+
         Evaluator evaluator = new Evaluator(options);
         List<EvaluationInfo> results = evaluator.evaluate();
         for (EvaluationInfo result : results) {

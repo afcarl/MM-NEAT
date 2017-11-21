@@ -2,11 +2,8 @@ package competition.cig.robinbaumgarten.astar;
 
 import java.util.ArrayList;
 
-//import org.nd4j.linalg.api.rng.Random;
-
 import java.util.Random;
 
-import ch.idsia.mario.engine.GlobalOptions;
 import ch.idsia.mario.engine.sprites.Mario;
 
 import competition.cig.robinbaumgarten.astar.level.Level;
@@ -14,6 +11,7 @@ import competition.cig.robinbaumgarten.astar.level.Level;
 
 public class AStarSimulator 
 {
+	public static final boolean PLAYFUL = true;
 	
     public LevelScene levelScene;
     public LevelScene workScene;
@@ -479,9 +477,12 @@ public class AStarSimulator
     		}
     	}
     	
-    	Random rand = new Random();
-    	bestPos = posPool.get( rand.nextInt(posPool.size())  );
-    	//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
+    	// This is Sebastian's code for randomness
+    	if(PLAYFUL) {
+    		Random rand = new Random();
+    		bestPos = posPool.get( rand.nextInt(posPool.size())  );
+    		//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
+    	}
     	
     	posPool.remove(bestPos);
     	//System.out.println("Best Pos: elapsed time "+bestPos.timeElapsed+" est time: "

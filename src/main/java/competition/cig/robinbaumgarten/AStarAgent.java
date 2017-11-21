@@ -46,6 +46,12 @@ public class AStarAgent implements Agent
     	if (sim.levelScene.verbose > 0) System.out.println("Next action! Tick " + tickCounter + " Simulated Mariosize: " + s);
 
     	boolean[] ac = new boolean[5];
+    	
+    	// Make A star agent wait
+    	if(tickCounter < 100) {
+    		return ac;
+    	}
+    	
     	ac[Mario.KEY_RIGHT] = true;
     	ac[Mario.KEY_SPEED] = true;
     	

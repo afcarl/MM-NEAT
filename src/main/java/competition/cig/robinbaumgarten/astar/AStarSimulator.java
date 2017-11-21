@@ -24,8 +24,8 @@ public class AStarSimulator
     private boolean requireReplanning = false;
     public int debugPos = 0;
     
-    public int targetX = 100;
-    public int targetY = 100;
+//    public int targetX = 100;
+//    public int targetY = 100;
     public int timeBudget = 20; // ms
     public static final int visitedListPenalty = 1500;
 

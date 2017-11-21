@@ -7,24 +7,19 @@ import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.mario.engine.Scene;
 import ch.idsia.mario.engine.level.Level;
 
-// THE MANY STATIC ELEMENTS IN THIS CLASS ARE PROBLEMATIC.
-// THEY ARE THE REASON THAT TWO MARIOS AT THE SAME TIME HAVE
-// WEIRD ISSUES.
 public class Mario extends Sprite
 {
-    public static boolean large = false;
-    public static boolean fire = false;
-    public static int coins = 0;
-    public static int lives = 1024;
-//    public static int numberOfAttempts = 0;
-//    public static String levelString = "none";
+    public boolean large = false;
+    public boolean fire = false;
+    public int coins = 0;
+    public int lives = 1024;
     private int status = STATUS_RUNNING;
     private final int FractionalPowerUpTime = 0;
-    public static int gainedMushrooms;
-    public static int gainedFlowers;
-    public static boolean isMarioInvulnerable;
+    public int gainedMushrooms;
+    public int gainedFlowers;
+    public boolean isMarioInvulnerable;
 
-    public static void resetStatic(int marioMode)
+    public void resetStatic(int marioMode)
     {
         large = marioMode > 0;
         fire = marioMode == 2;
@@ -37,7 +32,7 @@ public class Mario extends Sprite
 //        numberOfAttempts = 0;
     }
 
-    public static void setMode(MODE mode)
+    public void setMode(MODE mode)
     {
         large = (mode == MODE.MODE_LARGE);
         fire = (mode == MODE.MODE_FIRE);
@@ -50,7 +45,7 @@ public class Mario extends Sprite
 
     public static enum MODE {MODE_SMALL, MODE_LARGE, MODE_FIRE}
 
-    public static void resetCoins()
+    public void resetCoins()
     {
         coins = 0;
 //        ++numberOfAttempts;
@@ -116,7 +111,7 @@ public class Mario extends Sprite
         y = 0;
 
         facing = 1;
-        setLarge(Mario.large, Mario.fire);
+        setLarge(large, fire);
     }
     
     private boolean lastLarge;
@@ -126,8 +121,8 @@ public class Mario extends Sprite
     
     private void blink(boolean on)
     {
-        Mario.large = on?newLarge:lastLarge;
-        Mario.fire = on?newFire:lastFire;
+        large = on?newLarge:lastLarge;
+        fire = on?newFire:lastFire;
         
         if (large)
         {
@@ -156,14 +151,14 @@ public class Mario extends Sprite
         if (fire) large = true;
         if (!large) fire = false;
         
-        lastLarge = Mario.large;
-        lastFire = Mario.fire;
+        lastLarge = this.large;
+        lastFire = this.fire;
         
-        Mario.large = large;
-        Mario.fire = fire;
+        this.large = large;
+        this.fire = fire;
 
-        newLarge = Mario.large;
-        newFire = Mario.fire;
+        newLarge = this.large;
+        newFire = this.fire;
         
         blink(true);
     }
@@ -306,15 +301,15 @@ public class Mario extends Sprite
             sliding = false;
         }
         
-        if (keys[KEY_SPEED] && canShoot && Mario.fire && world.fireballsOnScreen<2)
+        if (keys[KEY_SPEED] && canShoot && this.fire && world.fireballsOnScreen<2)
         {
             world.addSprite(new Fireball(world, x+facing*6, y-20, facing));
         }
         // Cheats:
-        if (GlobalOptions.PowerRestoration && keys[KEY_SPEED] && (!Mario.large || !Mario.fire))
+        if (GlobalOptions.PowerRestoration && keys[KEY_SPEED] && (!this.large || !this.fire))
             setLarge(true, true);
         if (cheatKeys[KEY_LIFE_UP])
-            Mario.lives++;
+        	this.lives++;
         world.paused = GlobalOptions.pauseWorld;
         if (cheatKeys[KEY_WIN])
             win();
@@ -564,7 +559,7 @@ public class Mario extends Sprite
 
         if (((Level.TILE_BEHAVIORS[block & 0xff]) & Level.BIT_PICKUPABLE) > 0)
         {
-            Mario.getCoin();
+            getCoin();
             world.level.setBlock(x, y, (byte) 0);
             for (int xx = 0; xx < 2; xx++)
                 for (int yy = 0; yy < 2; yy++)
@@ -631,11 +626,11 @@ public class Mario extends Sprite
             powerUpTime = -3 * FractionalPowerUpTime;
             if (fire)
             {
-                world.mario.setLarge(true, false);
+                setLarge(true, false);
             }
             else
             {
-                world.mario.setLarge(false, false);
+                setLarge(false, false);
             }
             invulnerableTime = 32;
         }
@@ -672,11 +667,11 @@ public class Mario extends Sprite
         {
             world.paused = true;
             powerUpTime = 3 * FractionalPowerUpTime;
-            world.mario.setLarge(true, true);
+            setLarge(true, true);
         }
         else
         {
-            Mario.getCoin();
+            getCoin();
         }
         ++gainedFlowers;
     }
@@ -689,11 +684,11 @@ public class Mario extends Sprite
         {
             world.paused = true;
             powerUpTime = 3 * FractionalPowerUpTime;
-            world.mario.setLarge(true, false);
+            setLarge(true, false);
         }
         else
         {
-            Mario.getCoin();
+            getCoin();
         }
         ++gainedMushrooms;        
     }
@@ -747,15 +742,15 @@ public class Mario extends Sprite
         }
     }
 
-    public static void get1Up()
+    public void get1Up()
     {
-        lives++;
+    	this.lives++;
     }
     
-    public static void getCoin()
+    public void getCoin()
     {
-        coins++;
-        if (coins % 100 == 0)
+    	this.coins++;
+        if (this.coins % 100 == 0)
             get1Up();
     }
 

@@ -910,9 +910,10 @@ public class LevelScene extends Scene implements SpriteContext
         drawStringDropShadow(g, "SEED:" + this.levelSeed, 0, 1, 7);
         drawStringDropShadow(g, "TYPE:" + LEVEL_TYPES[this.levelType], 0, 2, 7);                  drawStringDropShadow(g, "ALL KILLS: " + killedCreaturesTotal, 19, 1, 1);
         drawStringDropShadow(g, "LENGTH:" + (int)mario.x/16 + " of " + this.levelLength, 0, 3, 7); drawStringDropShadow(g, "by Fire  : " + killedCreaturesByFireBall, 19, 2, 1);
-        drawStringDropShadow(g,"COINS    : " + df.format(Mario.coins), 0, 4, 4);                      drawStringDropShadow(g, "by Shell : " + killedCreaturesByShell, 19, 3, 1);
-        drawStringDropShadow(g, "MUSHROOMS: " + df.format(Mario.gainedMushrooms), 0, 5, 4);                  drawStringDropShadow(g, "by Stomp : " + killedCreaturesByStomp, 19, 4, 1);
-        drawStringDropShadow(g, "FLOWERS  : " + df.format(Mario.gainedFlowers), 0, 6, 4);
+        // TODO: Should these all be mario2 instead?
+        drawStringDropShadow(g,"COINS    : " + df.format(mario.coins), 0, 4, 4);                      drawStringDropShadow(g, "by Shell : " + killedCreaturesByShell, 19, 3, 1);
+        drawStringDropShadow(g, "MUSHROOMS: " + df.format(mario.gainedMushrooms), 0, 5, 4);                  drawStringDropShadow(g, "by Stomp : " + killedCreaturesByStomp, 19, 4, 1);
+        drawStringDropShadow(g, "FLOWERS  : " + df.format(mario.gainedFlowers), 0, 6, 4);
 
 
         drawStringDropShadow(g, "TIME", 33, 0, 7);
@@ -1078,7 +1079,8 @@ public class LevelScene extends Scene implements SpriteContext
 
             if (((Level.TILE_BEHAVIORS[block & 0xff]) & Level.BIT_SPECIAL) > 0)
             {
-                if (!Mario.large)
+            	// TODO: Make mario2 matter too?
+                if (!mario.large)
                 {
                     addSprite(new Mushroom(this, x * 16 + 8, y * 16 + 8));
                 }
@@ -1089,7 +1091,8 @@ public class LevelScene extends Scene implements SpriteContext
             }
             else
             {
-                Mario.getCoin();
+            	// TODO: what about mario2?
+                mario.getCoin();
                 addSprite(new CoinAnim(x, y));
             }
         }
@@ -1116,7 +1119,8 @@ public class LevelScene extends Scene implements SpriteContext
         byte block = level.getBlock(x, y);
         if (((Level.TILE_BEHAVIORS[block & 0xff]) & Level.BIT_PICKUPABLE) > 0)
         {
-            Mario.getCoin();
+        	// TODO: what about mario2?
+            mario.getCoin();
             level.setBlock(x, y, (byte) 0);
             addSprite(new CoinAnim(x, y + 1));
         }

@@ -51,8 +51,9 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
     private CheaterKeyboardAgent cheatAgent = null;
 
     private KeyAdapter prevHumanKeyBoardAgent;
-    private Mario mario = null;
-    private Mario mario2 = null;
+    // schrum2: I made this public from private
+    public Mario mario = null;
+    public Mario mario2 = null;
     private LevelScene levelScene = null;
 
     public MarioComponent(int width, int height) {
@@ -155,7 +156,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         }
         int totalActionsPerfomed = 0;
 // TODO: Manage better place for this:
-        Mario.resetCoins();
+        mario.resetCoins();  // TODO: Should this be mario2 instead?
 
         while (/*Thread.currentThread() == animator*/ running) {
             // Display the next frame of animation.
@@ -266,7 +267,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         evaluationInfo.agentType = agent.getClass().getSimpleName();
         evaluationInfo.agentName = agent.getName();
         evaluationInfo.marioStatus = mario.getStatus();
-        evaluationInfo.livesLeft = Mario.lives;
+        evaluationInfo.livesLeft = mario.lives; // TODO: Should this be mario2 instead?
         evaluationInfo.lengthOfLevelPassedPhys = mario.x;
         evaluationInfo.lengthOfLevelPassedCells = mario.mapX;
         evaluationInfo.totalLengthOfLevelCells = levelScene.level.getWidthCells();
@@ -274,7 +275,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         evaluationInfo.timeSpentOnLevel = levelScene.getStartTime();
         evaluationInfo.timeLeft = levelScene.getTimeLeft();
         evaluationInfo.totalTimeGiven = levelScene.getTotalTime();
-        evaluationInfo.numberOfGainedCoins = Mario.coins;
+        evaluationInfo.numberOfGainedCoins = mario.coins;  // TODO: Should this be mario2 instead?
 //        evaluationInfo.totalNumberOfCoins   = -1 ; // TODO: total Number of coins.
         evaluationInfo.totalActionsPerfomed = totalActionsPerfomed; // Counted during the play/simulation process
         evaluationInfo.totalFramesPerfomed = frame;
@@ -301,7 +302,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
 
     public void levelFailed() {
 //        scene = mapScene;
-        Mario.lives--;
+        mario.lives--;  // TODO: Should this be mario2 instead?
         stop();
     }
 
@@ -436,7 +437,8 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
     
     public void setMarioInvulnerable(boolean invulnerable)
     {
-        Mario.isMarioInvulnerable = invulnerable;
+    	if(mario != null)
+    		mario.isMarioInvulnerable = invulnerable;  // TODO: Should this be mario2 instead?
     }
 
     public void setPaused(boolean paused) {

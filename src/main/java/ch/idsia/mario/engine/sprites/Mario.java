@@ -658,6 +658,47 @@ public class Mario extends Sprite
         status = Mario.STATUS_DEAD;
     }
 
+    /**
+     * Check if different Marios are colliding with each other
+     */
+    public void collideCheck()
+    {
+        // Allow for extra playful Mario
+        Mario[] marios = new Mario[LevelScene.TWO_PLAYERS ? 2 : 1];
+        marios[0] = world.mario;
+        if(LevelScene.TWO_PLAYERS) {
+        	marios[1] = world.mario2;
+        }
+
+        for(Mario mario : marios) {
+        	if(mario == this) continue; // Do not collide with self
+        	
+        	float xMarioD = mario.x - x;
+        	float yMarioD = mario.y - y;
+        	@SuppressWarnings("unused")
+        	float w = 16;
+        	if (xMarioD > -16 && xMarioD < 16)
+        	{
+        		if (yMarioD > -height && yMarioD < mario.height)
+        		{
+        			// TODO: Get the physics details fine tuned here.
+        			// Both marios colliding
+        			if(xMarioD < 0) { // On left
+        				x += 3; // small push
+        				mario.x -= 3;
+        			} else {
+        				x -= 3;
+        				mario.x += 3;
+        			}
+        			        			
+//        			if(yMarioD > 0) { // above: bounce up 
+//        				y += 5;
+//        			}
+
+        		}
+        	}
+        }
+    }
 
     public void getFlower()
     {

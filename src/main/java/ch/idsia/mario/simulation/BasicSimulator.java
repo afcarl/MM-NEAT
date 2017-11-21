@@ -4,7 +4,6 @@ import ch.idsia.ai.agents.Agent;
 import ch.idsia.mario.engine.GlobalOptions;
 import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.mario.engine.MarioComponent;
-import ch.idsia.mario.engine.sprites.Mario;
 import ch.idsia.tools.EvaluationInfo;
 
 /**
@@ -49,6 +48,8 @@ public class BasicSimulator implements Simulation
 
     public EvaluationInfo simulateOneLevel()
     {
+    	// This code doesn't work, but the code it replaced made mario start out
+    	// big with fire powers.
 //    	marioComponent.mario.resetStatic(simulationOptions.getMarioMode());        
 //    	marioComponent.mario2.resetStatic(simulationOptions.getMarioMode());        
         prepareMarioComponent();        

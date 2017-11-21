@@ -1,6 +1,7 @@
 package ch.idsia.mario.engine;
 
 import ch.idsia.ai.agents.Agent;
+import ch.idsia.ai.agents.ai.ForwardAgent;
 import ch.idsia.ai.agents.human.CheaterKeyboardAgent;
 import ch.idsia.mario.engine.sprites.Mario;
 import ch.idsia.mario.environments.Environment;
@@ -43,10 +44,12 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
     private GameViewer gameViewer = null;
 
     private Agent agent = null;
+    private Agent agent2 = null; //new ForwardAgent();
     private CheaterKeyboardAgent cheatAgent = null;
 
     private KeyAdapter prevHumanKeyBoardAgent;
     private Mario mario = null;
+    private Mario mario2 = null;
     private LevelScene levelScene = null;
 
     public MarioComponent(int width, int height) {
@@ -136,6 +139,8 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
         int marioStatus = Mario.STATUS_RUNNING;
 
         mario = ((LevelScene) scene).mario;
+        if(agent2 != null)
+        	mario2 = ((LevelScene) scene).mario2;
         int totalActionsPerfomed = 0;
 // TODO: Manage better place for this:
         Mario.resetCoins();
@@ -162,6 +167,7 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
             }
 
             boolean[] action = agent.getAction(this/*DummyEnvironment*/);
+            boolean[] action2 = agent2 == null ? null : agent2.getAction(this/*DummyEnvironment*/);
             if (action != null)
             {
                 for (int i = 0; i < Environment.numberOfButtons; ++i)
@@ -181,7 +187,9 @@ public class MarioComponent extends JComponent implements Runnable, /*KeyListene
 
             //Apply action;
 //            scene.keys = action;
-            ((LevelScene) scene).mario.keys = action;
+            mario.keys = action;
+            if(agent2 != null)
+            	mario2.keys = action2;
             ((LevelScene) scene).mario.cheatKeys = cheatAgent.getAction(null);
 
             if (GlobalOptions.VisualizationOn) {

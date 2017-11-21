@@ -18,12 +18,16 @@ import java.util.List;
 
 public class LevelScene extends Scene implements SpriteContext
 {
+	// Used for adding a 2nd "playful" AI
+	public static final boolean TWO_PLAYERS = false;
+	
     private List<Sprite> sprites = new ArrayList<Sprite>();
     private List<Sprite> spritesToAdd = new ArrayList<Sprite>();
     private List<Sprite> spritesToRemove = new ArrayList<Sprite>();
 
     public Level level;
     public Mario mario;
+    public Mario mario2;
     public float xCam, yCam, xCamO, yCamO;
     public static Image tmpImage;
     private int tick;
@@ -633,6 +637,10 @@ public class LevelScene extends Scene implements SpriteContext
         }
         mario = new Mario(this);
         sprites.add(mario);
+        if(TWO_PLAYERS) {
+        	mario2 = new Mario(this);
+        	sprites.add(mario2);
+        }
         startTime = 1;
 
         timeLeft = totalTime*15;

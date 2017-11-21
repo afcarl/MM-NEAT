@@ -2,6 +2,10 @@ package competition.cig.robinbaumgarten.astar;
 
 import java.util.ArrayList;
 
+//import org.nd4j.linalg.api.rng.Random;
+
+import java.util.Random;
+
 import ch.idsia.mario.engine.GlobalOptions;
 import ch.idsia.mario.engine.sprites.Mario;
 
@@ -474,6 +478,11 @@ public class AStarSimulator
     			bestPosCost = currentCost;
     		}
     	}
+    	
+    	Random rand = new Random();
+    	bestPos = posPool.get( rand.nextInt(posPool.size())  );
+    	//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
+    	
     	posPool.remove(bestPos);
     	//System.out.println("Best Pos: elapsed time "+bestPos.timeElapsed+" est time: "
     	//			+ bestPos.getRemainingTime() + " actions: " + printAction(bestPos.action));

@@ -7,7 +7,9 @@ import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.mario.engine.Scene;
 import ch.idsia.mario.engine.level.Level;
 
-
+// THE MANY STATIC ELEMENTS IN THIS CLASS ARE PROBLEMATIC.
+// THEY ARE THE REASON THAT TWO MARIOS AT THE SAME TIME HAVE
+// WEIRD ISSUES.
 public class Mario extends Sprite
 {
     public static boolean large = false;

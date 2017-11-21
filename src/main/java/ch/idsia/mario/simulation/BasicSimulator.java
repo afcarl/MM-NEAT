@@ -49,6 +49,7 @@ public class BasicSimulator implements Simulation
 
     public EvaluationInfo simulateOneLevel()
     {
+    	// This static method is problematic
         Mario.resetStatic(simulationOptions.getMarioMode());        
         prepareMarioComponent();
         marioComponent.setZLevelScene(simulationOptions.getZLevelMap());

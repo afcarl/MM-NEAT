@@ -1,22 +1,18 @@
 package ch.idsia.scenarios;
 
-import ch.idsia.ai.agents.ai.*;
-import ch.idsia.ai.agents.human.HumanKeyboardAgent;
-import ch.idsia.mario.engine.LevelScene;
+import java.util.List;
+
 import ch.idsia.ai.agents.Agent;
 import ch.idsia.ai.agents.AgentsPool;
-//import ch.idsia.ai.agents.icegic.robin.AStarAgent;
-//import ch.idsia.ai.agents.icegic.peterlawford.SlowAgent;
+import ch.idsia.ai.agents.ai.TimingAgent;
+import ch.idsia.ai.agents.human.HumanKeyboardAgent;
+import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.tools.CmdLineOptions;
 import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.EvaluationOptions;
 import ch.idsia.tools.Evaluator;
 import ch.idsia.utils.StatisticalSummary;
-
-import java.util.List;
-
 import competition.cig.robinbaumgarten.AStarAgent;
-import competition.cig.sergeykarakovskiy.SergeyKarakovskiy_JumpingAgent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -79,7 +75,7 @@ public class MainRun
 //            AgentsPool.addAgent(new AIwesome());
 //            AgentsPool.addAgent(new TutchekAgent());
         //    AgentsPool.addAgent(new SlowAgent());
-            AgentsPool.addAgent(new AStarAgent());
+            AgentsPool.addAgent(new AStarAgent(true)); // true for playful
 //            AgentsPool.addAgent(new RjAgent());
             //AgentsPool.addAgent(new SergeyKarakovskiy_JumpingAgent());
         }

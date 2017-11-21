@@ -16,10 +16,22 @@ public class AStarAgent implements Agent
     private float lastY = 0;
 	int errCount = 0;
 	AStarAgent errAgent;
+	
+	public boolean playful;
+	
+	public AStarAgent() {
+		this(false); // by default, agent is not playful
+	}
+	
+	public AStarAgent(boolean playful) {
+		this.playful = playful;
+	}
+	
+	
     public void reset()
     {
         action = new boolean[Environment.numberOfButtons];
-        sim = new AStarSimulator();
+        sim = new AStarSimulator(playful);
     }
     
     public void printLevel(byte[][] levelScene)

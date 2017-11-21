@@ -11,8 +11,7 @@ import competition.cig.robinbaumgarten.astar.level.Level;
 
 public class AStarSimulator 
 {
-	public static final boolean PLAYFUL = true;
-	
+	public boolean playful;
     public LevelScene levelScene;
     public LevelScene workScene;
     public SearchNode bestPosition;
@@ -149,8 +148,9 @@ public class AStarSimulator
 	}
 	
     
-    public AStarSimulator()
+    public AStarSimulator(boolean playful)
     {
+    	this.playful = playful;
     	initialiseSimulator();
     }
     
@@ -478,7 +478,7 @@ public class AStarSimulator
     	}
     	
     	// This is Sebastian's code for randomness
-    	if(PLAYFUL) {
+    	if(playful) {
     		Random rand = new Random();
     		bestPos = posPool.get( rand.nextInt(posPool.size())  );
     		//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )

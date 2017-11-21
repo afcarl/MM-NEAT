@@ -1,13 +1,11 @@
 package ch.idsia.ai.tasks;
 
+import java.util.List;
+
 import ch.idsia.ai.agents.Agent;
-import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.EvaluationOptions;
 import ch.idsia.tools.Evaluator;
-import competition.play.PlayfulAStarOpponentAgent;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,10 +27,11 @@ public class ProgressTask implements Task {
 //        controller.reset();
         options.setAgent(controller);
 
-        if(LevelScene.TWO_PLAYERS) {
-        	// For playful agent
-        	options.setAgent2(new PlayfulAStarOpponentAgent());
-        }
+        // TODO: Remove this?
+//        if(LevelScene.TWO_PLAYERS) {
+//        	// For playful agent
+//        	options.setAgent2(new AStarAgent());
+//        }
 
         Evaluator evaluator = new Evaluator(options);
         List<EvaluationInfo> results = evaluator.evaluate();

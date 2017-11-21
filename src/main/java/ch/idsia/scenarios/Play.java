@@ -8,7 +8,7 @@ import ch.idsia.ai.tasks.Task;
 import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.tools.CmdLineOptions;
 import ch.idsia.tools.EvaluationOptions;
-import competition.play.PlayfulAStarOpponentAgent;
+import competition.cig.robinbaumgarten.AStarAgent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,7 +29,7 @@ public class Play {
 
         if(LevelScene.TWO_PLAYERS) {
         	// For playful agent
-        	options.setAgent2(new PlayfulAStarOpponentAgent());
+        	options.setAgent2(new AStarAgent());
         }
 
         Task task = new ProgressTask(options);

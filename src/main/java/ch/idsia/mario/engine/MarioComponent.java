@@ -13,16 +13,13 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
-import cern.colt.Arrays;
 import ch.idsia.ai.agents.Agent;
 import ch.idsia.ai.agents.human.CheaterKeyboardAgent;
-import ch.idsia.ai.agents.human.HumanKeyboardAgent;
 import ch.idsia.mario.engine.sprites.Mario;
 import ch.idsia.mario.environments.Environment;
 import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.GameViewer;
 import ch.idsia.tools.tcp.ServerAgent;
-import competition.play.PlayfulAStarOpponentAgent;
 
 
 public class MarioComponent extends JComponent implements Runnable, /*KeyListener,*/ FocusListener, Environment {

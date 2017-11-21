@@ -76,40 +76,49 @@ public class Shell extends Sprite
     {
         if (carried || dead || deadTime>0) return;
 
-        float xMarioD = world.mario.x - x;
-        float yMarioD = world.mario.y - y;
-        @SuppressWarnings("unused")
-		float w = 16;
-        if (xMarioD > -16 && xMarioD < 16)
-        {
-            if (yMarioD > -height && yMarioD < world.mario.height)
-            {
-                if (world.mario.ya > 0 && yMarioD <= 0 && (!world.mario.onGround || !world.mario.wasOnGround))
-                {
-                    world.mario.stomp(this);
-                    if (facing != 0)
-                    {
-                        xa = 0;
-                        facing = 0;
-                    }
-                    else
-                    {
-                        facing = world.mario.facing;
-                    }
-                }
-                else
-                {
-                    if (facing != 0)
-                    {
-                        world.mario.getHurt();
-                    }
-                    else
-                    {
-                        world.mario.kick(this);
-                        facing = world.mario.facing;
-                    }
-                }
-            }
+        // Allow for extra playful Mario
+        Mario[] marios = new Mario[LevelScene.TWO_PLAYERS ? 2 : 1];
+        marios[0] = world.mario;
+        if(LevelScene.TWO_PLAYERS) {
+        	marios[1] = world.mario2;
+        }
+
+        for(Mario mario : marios) {
+        	float xMarioD = mario.x - x;
+        	float yMarioD = mario.y - y;
+        	@SuppressWarnings("unused")
+        	float w = 16;
+        	if (xMarioD > -16 && xMarioD < 16)
+        	{
+        		if (yMarioD > -height && yMarioD < mario.height)
+        		{
+        			if (mario.ya > 0 && yMarioD <= 0 && (!mario.onGround || !mario.wasOnGround))
+        			{
+        				mario.stomp(this);
+        				if (facing != 0)
+        				{
+        					xa = 0;
+        					facing = 0;
+        				}
+        				else
+        				{
+        					facing = mario.facing;
+        				}
+        			}
+        			else
+        			{
+        				if (facing != 0)
+        				{
+        					mario.getHurt();
+        				}
+        				else
+        				{
+        					mario.kick(this);
+        					facing = mario.facing;
+        				}
+        			}
+        		}
+        	}
         }
     }
 

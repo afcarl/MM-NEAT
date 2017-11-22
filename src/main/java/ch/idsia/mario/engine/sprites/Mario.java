@@ -675,22 +675,31 @@ public class Mario extends Sprite
         	
         	float xMarioD = mario.x - x;
         	float yMarioD = mario.y - y;
-        	@SuppressWarnings("unused")
         	float w = 16;
-        	if (xMarioD > -16 && xMarioD < 16)
+        	if (xMarioD > -w && xMarioD < w)
         	{
         		if (yMarioD > -height && yMarioD < mario.height)
         		{
-        			// TODO: Get the physics details fine tuned here.
         			// Both marios colliding
-        			if(xMarioD < 0) { // On left
-        				x += 3; // small push
-        				mario.x -= 3;
+        			
+//        			System.out.println("x:" + x);
+//        			System.out.println("mario.x:" + mario.x);
+//        			System.out.println("xMarioD:" + xMarioD);
+
+        			if(0 < xMarioD) {
+        				float push = w - xMarioD;
+//        				System.out.println("push:"+push);
+//        				System.out.println();
+        				x -= push/2;
+        				mario.x += push/2;
         			} else {
-        				x -= 3;
-        				mario.x += 3;
+        				float push = w + xMarioD;
+//        				System.out.println("push:"+push);
+//        				System.out.println();
+        				x += push/2;
+        				mario.x -= push/2;
         			}
-        			        			
+        			        			        			
 //        			if(yMarioD > 0) { // above: bounce up 
 //        				y += 5;
 //        			}

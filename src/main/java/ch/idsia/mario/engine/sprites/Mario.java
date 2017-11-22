@@ -65,7 +65,12 @@ public class Mario extends Sprite
     public static final int STATUS_RUNNING = 2;
     public static final int STATUS_WIN = 1;
     public static final int STATUS_DEAD = 0;
-
+    
+    // Schrum: Added for clarity
+	private static final float SLIDING_JUMP_SPEED = -2.0f;
+	private static final float STILL_JUMP_SPEED = -1.9f;
+	private static final int INITIAL_STILL_JUMP_TIME = 7;
+	private static final int INITIAL_SLIDING_JUMP_TIME = -6;
 
     private static float GROUND_INERTIA = 0.89f;
     private static float AIR_INERTIA = 0.89f;
@@ -253,8 +258,8 @@ public class Mario extends Sprite
             else if (onGround && mayJump)
             {
                 xJumpSpeed = 0;
-                yJumpSpeed = -1.9f;
-                jumpTime = 7;
+                yJumpSpeed = STILL_JUMP_SPEED;
+                jumpTime = INITIAL_STILL_JUMP_TIME;
                 ya = jumpTime * yJumpSpeed;
                 onGround = false;
                 sliding = false;
@@ -262,8 +267,8 @@ public class Mario extends Sprite
             else if (sliding && mayJump)
             {
                 xJumpSpeed = -facing * 6.0f;
-                yJumpSpeed = -2.0f;
-                jumpTime = -6;
+                yJumpSpeed = SLIDING_JUMP_SPEED;
+                jumpTime = INITIAL_SLIDING_JUMP_TIME;
                 xa = xJumpSpeed;
                 ya = -jumpTime * yJumpSpeed;
                 onGround = false;
@@ -690,42 +695,40 @@ public class Mario extends Sprite
         	{
         		if (yMarioD > -height && yMarioD < mario.height)
         		{
-        			// Both marios colliding
-        			
-//        			System.out.println("x:" + x);
-//        			System.out.println("mario.x:" + mario.x);
-//        			System.out.println("xMarioD:" + xMarioD);
+        			// If mario on top of other
+        			if(Math.abs(yMarioD) > height - 5) { // Right on top
+        				if(y < mario.y) {
+//        					this.move(0,-30);
+        	                yJumpSpeed = STILL_JUMP_SPEED;
+        	                jumpTime = INITIAL_STILL_JUMP_TIME;
+        	                ya = jumpTime * yJumpSpeed;
+        				} else {
+//        					mario.move(0,-30);        					
+        					mario.yJumpSpeed = STILL_JUMP_SPEED;
+        					mario.jumpTime = INITIAL_STILL_JUMP_TIME;
+        					mario.ya = jumpTime * yJumpSpeed;
+        				}
+        				continue; // No sideways pushes
+        			} 
 
+        			// Both marios colliding
         			if(0 < xMarioD) {
         				float push = (w - xMarioD)/2.0f;
-//        				System.out.println("push:"+push);
-//        				System.out.println();
         				if(!isBlocking(x, y, -push, 0)) {
             				this.move(-push, 0);
-//            				x -= push;
         				}
         				if(!mario.isBlocking(mario.x, mario.y, push, 0)) {
             				mario.move(push, 0);
-//            				mario.x += push;
         				}
         			} else {
         				float push = (w + xMarioD)/2.0f;
-//        				System.out.println("push:"+push);
-//        				System.out.println();
         				if(!isBlocking(x, y, push, 0)) {
         					this.move(push,0);
-//            				x += push;
         				}
         				if(!mario.isBlocking(mario.x, mario.y, -push, 0)) {
         					mario.move(-push,0);
-//            				mario.x -= push;
         				}        				
-        			}
-        			        			        			
-//        			if(yMarioD > 0) { // above: bounce up 
-//        				y += 5;
-//        			}
-
+        			}        			        			        			
         		}
         	}
         }

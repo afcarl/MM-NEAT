@@ -456,6 +456,16 @@ public class Mario extends Sprite
         xPic = runFrame;
     }
 
+    /**
+     * Move this Mario sprite xa units horizontally and
+     * ya units vertically, if the surrounding landscape allows.
+     * Obstacles will prevent movement. Meathod indicates whether
+     * movement was carried out unhindered.
+     * 
+     * @param xa Horozontal movement (negative for left, pos for right)
+     * @param ya Vertical movement (pos for up, neg for down)
+     * @return true if movement occurred, false if blocked by obstacle.
+     */
     private boolean move(float xa, float ya)
     {
         while (xa > 8)
@@ -687,17 +697,29 @@ public class Mario extends Sprite
 //        			System.out.println("xMarioD:" + xMarioD);
 
         			if(0 < xMarioD) {
-        				float push = w - xMarioD;
+        				float push = (w - xMarioD)/2.0f;
 //        				System.out.println("push:"+push);
 //        				System.out.println();
-        				x -= push/2;
-        				mario.x += push/2;
+        				if(!isBlocking(x, y, -push, 0)) {
+            				this.move(-push, 0);
+//            				x -= push;
+        				}
+        				if(!mario.isBlocking(mario.x, mario.y, push, 0)) {
+            				mario.move(push, 0);
+//            				mario.x += push;
+        				}
         			} else {
-        				float push = w + xMarioD;
+        				float push = (w + xMarioD)/2.0f;
 //        				System.out.println("push:"+push);
 //        				System.out.println();
-        				x += push/2;
-        				mario.x -= push/2;
+        				if(!isBlocking(x, y, push, 0)) {
+        					this.move(push,0);
+//            				x += push;
+        				}
+        				if(!mario.isBlocking(mario.x, mario.y, -push, 0)) {
+        					mario.move(-push,0);
+//            				mario.x -= push;
+        				}        				
         			}
         			        			        			
 //        			if(yMarioD > 0) { // above: bounce up 

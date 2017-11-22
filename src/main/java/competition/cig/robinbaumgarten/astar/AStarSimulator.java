@@ -254,9 +254,12 @@ public class AStarSimulator
     	boolean currentGood = false;
     	int ticks = 0;
     	int maxRight = 176;
+    	
+    	System.out.println( System.currentTimeMillis()+" "+startTime ); 
+    	
     	while(posPool.size() != 0 
     			//&& ((levelScene.mario.x - currentSearchStartingMarioXPos < maxRight) || !currentGood) 
-    			&& ((bestPosition.sceneSnapshot.mario.x - currentSearchStartingMarioXPos < maxRight) || !currentGood) 
+    			&& ((bestPosition.sceneSnapshot.mario.x - currentSearchStartingMarioXPos < maxRight) || !currentGood)  
     			//&& ((System.currentTimeMillis() - startTime < 35) || (ticks < 200)))
     			&& (System.currentTimeMillis() - startTime < Math.min(200,timeBudget/2)))
     			//&& ticks < 200)
@@ -307,7 +310,7 @@ public class AStarSimulator
     		if (currentGood) 
     		{
     			bestPosition = current;
-    			if (current.sceneSnapshot.mario.x > furthestPosition.sceneSnapshot.mario.x
+    			if (false && current.sceneSnapshot.mario.x > furthestPosition.sceneSnapshot.mario.x
     					&& !levelScene.level.isGap[(int)(current.sceneSnapshot.mario.x/16)])
     					//&& current.sceneSnapshot.mario.isOnGround())
     				furthestPosition = current;
@@ -477,12 +480,19 @@ public class AStarSimulator
     		}
     	}
     	
+<<<<<<< Updated upstream
     	// This is Sebastian's code for randomness
     	if(playful) {
     		Random rand = new Random();
     		bestPos = posPool.get( rand.nextInt(posPool.size())  );
     		//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
     	}
+=======
+    	Random rand = new Random();
+    	bestPos = posPool.get( rand.nextInt(posPool.size())  );
+    //	System.out.println(bestPos);
+    	//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
+>>>>>>> Stashed changes
     	
     	posPool.remove(bestPos);
     	//System.out.println("Best Pos: elapsed time "+bestPos.timeElapsed+" est time: "

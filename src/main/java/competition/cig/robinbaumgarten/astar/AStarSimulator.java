@@ -23,6 +23,8 @@ public class AStarSimulator
     private boolean requireReplanning = false;
     public int debugPos = 0;
     
+    public SearchNode oldBestPos;
+    
 //    public int targetX = 100;
 //    public int targetY = 100;
     public int timeBudget = 20; // ms
@@ -32,6 +34,7 @@ public class AStarSimulator
     //private LevelScene lsCopy;
     
     //private int searchResolution = 10;
+    public boolean[] oldAction;
     
     private ArrayList<boolean[]> currentActionPlan;
     int ticksBeforeReplanning = 0;
@@ -255,7 +258,7 @@ public class AStarSimulator
     	int ticks = 0;
     	int maxRight = 176;
     	
-    	System.out.println( System.currentTimeMillis()+" "+startTime ); 
+    //	System.out.println( System.currentTimeMillis()+" "+startTime ); 
     	
     	while(posPool.size() != 0 
     			//&& ((levelScene.mario.x - currentSearchStartingMarioXPos < maxRight) || !currentGood) 
@@ -265,22 +268,29 @@ public class AStarSimulator
     			//&& ticks < 200)
     	{
     		ticks++;
+
+    		current = pickBestPos(posPool);
     		if (false)
     		{
-	    		if (current == null)
-	    		{
-	    			current = pickBestPos(posPool);
-	    		}
-	    		else 
-	    		{
-	    			Random rand = new Random();
-	    			if (rand.nextFloat() > 0.9)
-	    			{
-	        			current = pickBestPos(posPool);
-	    			}
-	    		}
+    		if (current == null)
+    		{
+    			current = pickBestPos(posPool);
     		}
-    		currentGood = false;
+    		else 
+    		{
+    			Random rand = new Random();
+    			current = bestPosition;
+    			if (rand.nextFloat() > 0.9)
+    			{
+        			current = pickBestPos(posPool);
+    			}
+    			
+    			//current = pickBestPos(posPool);
+    		}
+    		}
+
+	    		
+	    	currentGood = false;
     		float realRemainingTime = current.simulatePos();
     		
     		//System.out.println("Simulated mariopos: "+ current.sceneSnapshot.mario.x + " " + current.sceneSnapshot.mario.y);
@@ -348,6 +358,7 @@ public class AStarSimulator
     
     private void startSearch(int repetitions)
     {    	
+
     	if (levelScene.verbose > 1) System.out.println("Started search.");
     	SearchNode startPos = new SearchNode(null, repetitions, null);
     	startPos.sceneSnapshot = backupState();
@@ -462,6 +473,11 @@ public class AStarSimulator
     private SearchNode pickBestPos(ArrayList<SearchNode> posPool)
     {
     	SearchNode bestPos = null;
+    	
+	Random rand = new Random();
+		//if (rand.nextFloat() > 0.2 && oldAction != null)
+		//	return oldAction;		
+    	
     	float bestPosCost = 10000000;
     	//System.out.println("Searching fitnesses.");
     	for (SearchNode current: posPool)
@@ -496,12 +512,22 @@ public class AStarSimulator
     	
     	// This is Sebastian's code for randomness
     	if(playful) {
-    		Random rand = new Random();
+    		//Random rand = new Random();
     		bestPos = posPool.get( rand.nextInt(posPool.size())  );
     		//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
     	}
     	
+    	
+    	if (oldBestPos != null && rand.nextFloat() > 0.01 )
+    	{
+    		posPool.remove(oldBestPos);
+    		return oldBestPos;
+    	}
+
+    	oldBestPos = bestPos;
+    	
     	posPool.remove(bestPos);
+    	
     	//System.out.println("Best Pos: elapsed time "+bestPos.timeElapsed+" est time: "
     	//			+ bestPos.getRemainingTime() + " actions: " + printAction(bestPos.action));
     	return bestPos;
@@ -558,6 +584,8 @@ public class AStarSimulator
 
 	public boolean[] optimise()
 	{
+
+	
         // do stuff
 		long startTime = System.currentTimeMillis();
         LevelScene currentState = backupState();
@@ -599,7 +627,10 @@ public class AStarSimulator
 		long e = System.currentTimeMillis();
 		if (levelScene.verbose > 0) System.out.println("Simulation took "+(e-startTime)+"ms.");
 		//if ((e-startTime) > 40) System.out.println("Overtime warning: "+(e-startTime));
-		restoreState(currentState);       
+		restoreState(currentState);      
+		
+		oldAction = action;
+		
         return action;
 	}
 	

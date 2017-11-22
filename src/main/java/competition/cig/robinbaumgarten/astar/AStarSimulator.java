@@ -265,7 +265,21 @@ public class AStarSimulator
     			//&& ticks < 200)
     	{
     		ticks++;
-    		current = pickBestPos(posPool);
+    		if (false)
+    		{
+	    		if (current == null)
+	    		{
+	    			current = pickBestPos(posPool);
+	    		}
+	    		else 
+	    		{
+	    			Random rand = new Random();
+	    			if (rand.nextFloat() > 0.9)
+	    			{
+	        			current = pickBestPos(posPool);
+	    			}
+	    		}
+    		}
     		currentGood = false;
     		float realRemainingTime = current.simulatePos();
     		
@@ -480,19 +494,12 @@ public class AStarSimulator
     		}
     	}
     	
-<<<<<<< Updated upstream
     	// This is Sebastian's code for randomness
     	if(playful) {
     		Random rand = new Random();
     		bestPos = posPool.get( rand.nextInt(posPool.size())  );
     		//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
     	}
-=======
-    	Random rand = new Random();
-    	bestPos = posPool.get( rand.nextInt(posPool.size())  );
-    //	System.out.println(bestPos);
-    	//System.out.println("POOL " + rand.nextInt(posPool.size())); //posPool [ rand.nextInt(posPool.size()) ] )
->>>>>>> Stashed changes
     	
     	posPool.remove(bestPos);
     	//System.out.println("Best Pos: elapsed time "+bestPos.timeElapsed+" est time: "
